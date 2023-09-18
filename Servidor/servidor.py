@@ -2,7 +2,7 @@
 
 import socket
 
-HOST  = 'localhost'
+HOST  = '127.0.0.2'
 PORT  = 5000
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))

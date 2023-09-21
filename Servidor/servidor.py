@@ -1,5 +1,5 @@
 #Servidor TCP
-
+from rich.console import Console
 import socket
 import threading
 import datetime
@@ -42,19 +42,24 @@ def comandos(command):
 def identificador_cliente():
    pass
 
+console = Console()
+
 HOST  = '127.0.0.2'
 PORT  = 5000
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen()
-print ('Aguardando conexão de um cliente')
+console.print('Aguardando conexão de um cliente',style="#0033D6 bold")
+#print ('Aguardando conexão de um cliente')
 conn, ender = s.accept()
-print ('Conectado em', ender)
+console.print('Conectado em',ender,style="#009A05 bold")
+#print ('Conectado em', ender)
 while True:
    data = conn.recv(1024)
    command = data.decode()
    if not data:
-      print ('Fechando a conexão')
+      console.print('Fechando a conexão',style="#ff0000 bold")
+      #print ('Fechando a conexão')
       conn.close()
       break
    else:

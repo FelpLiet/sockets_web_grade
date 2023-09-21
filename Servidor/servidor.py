@@ -14,8 +14,12 @@ def hora_atual():
    hora_formatada = tempo.strftime("%H:%M:%S")
    conn.sendall(f"hora atual {hora_formatada}\n".encode())
 
-def nome_arq():
-   pass
+def dados_arq(nome_arquivo):
+   conteudo = b""
+   with open(nome_arquivo, "rb") as arquivo:
+            conteudo = arquivo.read()
+   conn.sendall(conteudo)
+   #conn.sendall("oi".encode())
 
 def lista_arq():
    pass
@@ -31,7 +35,7 @@ def comandos(command):
    elif command == "hora":
       hora_atual()
    elif command == "arquivo":
-      nome_arq   
+      dados_arq("/Shazam.txt")   
    elif command == "listar":
       lista_arq()
    elif command == "sair":

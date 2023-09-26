@@ -15,11 +15,13 @@ def hora_atual():
    conn.sendall(f"hora atual {hora_formatada}\n".encode())
 
 def dados_arq(nome_arquivo):
-   conteudo = b""
-   with open(nome_arquivo, "rb") as arquivo:
-            conteudo = arquivo.read()
-   conn.sendall(conteudo)
-   #conn.sendall("oi".encode())
+   try:
+      with open(nome_arquivo, "rb") as f:
+         dados = f.read()
+      conn.sendall(dados)
+      print(f"Enviado arquivo{nome_arquivo} para o cliente")
+   except FileNotFoundError:
+      conn.sendall("Arquivo não encontrado".encode())
 
 def lista_arq():
    pass
@@ -27,15 +29,16 @@ def lista_arq():
 def saindo():
    conn.sendall("Fechando a conexão".encode())
    print("ADEUS") 
-   conn.close()
+   
 
 def comandos(command):
    if command == "consulta":
       informacoes()
    elif command == "hora":
       hora_atual()
-   elif command == "arquivo":
-      dados_arq("/Shazam.txt")   
+   elif command.startswith("arquivo_"):
+      nome_arquivo = command.split("_")[1]
+      dados_arq(nome_arquivo)         
    elif command == "listar":
       lista_arq()
    elif command == "sair":

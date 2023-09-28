@@ -3,6 +3,7 @@ from rich.console import Console
 import socket
 import threading
 import datetime
+import os
 
 def informacoes():
    mensagem = "jv bota".encode()
@@ -19,15 +20,18 @@ def dados_arq(nome_arquivo):
    with open(nome_arquivo, "rb") as arquivo:
             conteudo = arquivo.read()
    conn.sendall(conteudo)
-   #conn.sendall("oi".encode())
 
 def lista_arq():
-   pass
+   #pasta = "/home/wesley/redes/sockets_web_grade/Servidor/Arquivos"
+   diretorio = os.path.dirname(os.path.abspath(__file__))
+   pasta_dos_arquivos = os.path.join(diretorio, "Arquivos")
+   arquivos_na_pasta = os.listdir(pasta_dos_arquivos)
+   lista = "\n".join(arquivos_na_pasta)
+   conn.sendall(f"LISTA DE ARQUIVOS:\n{lista}\n".encode())
 
 def saindo():
    conn.sendall("Fechando a conexão".encode())
    print("ADEUS") 
-   conn.close()
 
 def comandos(command):
    if command == "consulta":

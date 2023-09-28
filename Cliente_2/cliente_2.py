@@ -52,6 +52,7 @@ while(True):
             with open(nome, "wb") as f:
                 f.write(data)
             console.print(f"Arquivo {nome} recebido com sucesso",style="#009A05 bold")
+            print(data)
 
 
     elif opcao == '4':

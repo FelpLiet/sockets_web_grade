@@ -9,7 +9,9 @@ Este projeto demonstra como criar uma aplicação de chat em tempo real usando W
 ## Requisitos
 
 - Python 3.x
-- Biblioteca WebSocket (por exemplo, [websockets](https://pypi.org/project/websockets/))
+- Biblioteca Socket (padrão do Python)
+- biblioteca Threading (padrão do Python)
+- biblioteca [rich](https://github.com/Textualize/rich) (para melhorar a experiência do usuário)
 
 ## Configuração
 
@@ -25,7 +27,11 @@ Este projeto demonstra como criar uma aplicação de chat em tempo real usando W
 
 3. Instale as dependências necessárias:
         
-        pip install -r requirements.txt
+        pip install rich
+        
+   Caso esteja utilizando uma distribuicao linux baseada em arch tente o seguinte comando:
+        
+        sudo pacman -S python-rich
 
 
 ## Uso
@@ -34,11 +40,10 @@ Este projeto demonstra como criar uma aplicação de chat em tempo real usando W
 
         python servidor.py
 
-    O servidor estará ouvindo em `ws://localhost:8080`.
-
 2. Inicie o cliente WebSocket:
 
         python client.py
+        python client_2.py
 
 
     Você será solicitado a inserir seu nome de usuário. Após inserir o nome de usuário, você poderá enviar e receber mensagens em tempo real com outros participantes.
@@ -65,7 +70,7 @@ Se você tiver alguma dúvida ou precisar de assistência, entre em contato com 
 
 ## Agradecimentos
 
-Obrigado a todos que acreditaram no nosso trabalho.Agradecemos por usar nosso projeto de WebSockets em Python! Esperamos que seja útil.
+Obrigado a todos que acreditaram no nosso trabalho. Agradecemos por usar nosso projeto de WebSockets em Python! Esperamos que seja útil.
 
 ---
 

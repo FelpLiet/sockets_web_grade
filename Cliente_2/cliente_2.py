@@ -35,29 +35,35 @@ while(True):
         client.sendall(str.encode('consulta'))
         data = client.recv(1024)
         console.print('Mensagem ecoada:',data.decode(),style="#009A05 bold")
+
     elif opcao == '2':
         client.sendall(str.encode('hora'))
         data = client.recv(1024)
         console.print(':watch:',data.decode(),style="#009A05 bold")
+
     elif opcao == '3':
-        client.sendall(str.encode('arquivo'))
         nome = console.input(':file_folder: [#8ECAE6]Digite o Nome do Arquivo:')
-        try:
-            with open(nome, 'r') as f:
-                file_contents = f.read()
-                client.sendall(str.encode(file_contents))
-                data = client.recv(1024)
-                console.print('Mensagem ecoada:',data.decode(),style="#009A05 bold")
-        except FileNotFoundError:
-            console.print(f'Arquivo {nome} não encontrado',style="#FF0000 bold")
+        client.sendall(str.encode(f"arquivo_{nome}.txt"))
+
+        data = client.recv(1024)
+        if data.startswith("Arquivo nao encontrado".encode()):
+            console.print("Arquivo não encontrado no servidor",style="#ff0000 bold")
+        else:
+            with open(nome, "wb") as f:
+                f.write(data)
+            console.print(f"Arquivo {nome} recebido com sucesso",style="#009A05 bold")
+            print(data)
+
+
     elif opcao == '4':
         client.sendall(str.encode('listar'))
         data = client.recv(1024)
         console.print('Mensagem ecoada:',data.decode(),style="#009A05 bold")
+
     elif opcao == '5':
         client.sendall(str.encode('sair'))
         data = client.recv(1024)
         console.print('Bye Bye ! ',data.decode(),style="#06d6a0 bold")
+        client.close()
         break
-
 #print('Mensagem ecoada:', data.decode())

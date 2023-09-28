@@ -14,24 +14,33 @@ def hora_atual():
    hora_formatada = tempo.strftime("%H:%M:%S")
    conn.sendall(f"hora atual {hora_formatada}\n".encode())
 
-def nome_arq():
-   pass
+
+def dados_arq(nome_arquivo):
+   try:
+      with open(nome_arquivo, "rb") as f:
+         dados = f.read()
+      conn.sendall(dados)
+      print(f"Enviado arquivo{nome_arquivo} para o cliente")
+   except FileNotFoundError:
+      conn.sendall("Arquivo não encontrado".encode())
+
 
 def lista_arq():
    pass
 
 def saindo():
    conn.sendall("Fechando a conexão".encode())
-   print("ADEUS") 
-   conn.close()
+   print("ADEUS")
+
 
 def comandos(command):
    if command == "consulta":
       informacoes()
    elif command == "hora":
       hora_atual()
-   elif command == "arquivo":
-      nome_arq   
+   elif command.startswith("arquivo_"):
+      nome_arquivo = command.split("_")[1]
+      dados_arq(nome_arquivo)         
    elif command == "listar":
       lista_arq()
    elif command == "sair":

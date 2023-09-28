@@ -17,6 +17,7 @@ HOST = '127.0.0.2'
 PORT = 5000
 ADDR = (HOST, PORT)
 
+
 connec = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 connec.connect(ADDR)
 print('Conectado ao servidor')

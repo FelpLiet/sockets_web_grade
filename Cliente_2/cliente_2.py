@@ -43,7 +43,7 @@ while(True):
 
     elif opcao == '3':
         nome = console.input(':file_folder: [#8ECAE6]Digite o Nome do Arquivo:')
-        client.sendall(str.encode(f"arquivo_{nome}"))
+        client.sendall(str.encode(f"arquivo_{nome}.txt"))
 
         data = client.recv(1024)
         if data.startswith("Arquivo nao encontrado".encode()):

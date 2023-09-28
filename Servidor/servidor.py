@@ -14,6 +14,7 @@ def hora_atual():
    hora_formatada = tempo.strftime("%H:%M:%S")
    conn.sendall(f"hora atual {hora_formatada}\n".encode())
 
+
 def dados_arq(nome_arquivo):
    try:
       with open(nome_arquivo, "rb") as f:
@@ -23,13 +24,14 @@ def dados_arq(nome_arquivo):
    except FileNotFoundError:
       conn.sendall("Arquivo não encontrado".encode())
 
+
 def lista_arq():
    pass
 
 def saindo():
    conn.sendall("Fechando a conexão".encode())
-   print("ADEUS") 
-   
+   print("ADEUS")
+
 
 def comandos(command):
    if command == "consulta":

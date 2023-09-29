@@ -6,16 +6,14 @@ import datetime
 import os
 
 def informacoes(conn):
-   mensagem = HOST + "," + str(PORT)
+   mensagem = HOST
    conn.sendall(mensagem.encode())
    console.print("mensagem enviada com sucesso", style="#009A05 bold")
-
 
 def hora_atual(conn):
    tempo = datetime.datetime.now()
    hora_formatada = tempo.strftime("%H:%M:%S")
    conn.sendall(f"hora atual {hora_formatada}\n".encode())
-
 
 def dados_arq(conn, nome_arquivo):
    diretorio = os.path.dirname(os.path.abspath(__file__))
@@ -29,7 +27,6 @@ def dados_arq(conn, nome_arquivo):
    except FileNotFoundError:
       conn.sendall("Arquivo nao encontrado".encode())
 
-
 def lista_arq(conn):
    diretorio = os.path.dirname(os.path.abspath(__file__))
    pasta_dos_arquivos = os.path.join(diretorio, "Arquivos")
@@ -41,15 +38,14 @@ def saindo(conn):
    conn.sendall("Fechando a conexão".encode())
    print("ADEUS")
 
-
 def comandos(conn, command):
    if command == "consulta":
       informacoes(conn)
    elif command == "hora":
       hora_atual(conn)
-   elif command.startswith("arquivo_"):
+   elif command.startswith("arquivo_"): 
       nome_arquivo = command.split("_")[1]
-      dados_arq(nome_arquivo)         
+      dados_arq(conn, nome_arquivo)         
    elif command == "listar":
       lista_arq(conn)
    elif command == "sair":
@@ -58,13 +54,15 @@ def comandos(conn, command):
       conn.sendall("comando desconhecido".encode())
 
 def identificador_cliente(conn, ender):
-    console.print("Conectado em", ender, style="#0033D6 bold")
-
+    # Solicita ao cliente que forneça seu nome
+    nome_cliente = conn.recv(1024).decode()
+    console.print(f"Cliente {nome_cliente} conectado em {ender}", style="#009A05 bold")
+   
     try:
         while True:
             data = conn.recv(1024)
             if not data:
-                console.print(f'Fechando a conexão com {ender}', style="#ff0000 bold")
+                console.print(f'Fechando a conexão com {nome_cliente}', style="#ff0000 bold")
                 conn.close()
                 break
             else:
@@ -87,5 +85,3 @@ while True:
     conn, addr = s.accept()
     thread = threading.Thread(target=identificador_cliente, args=(conn, addr))
     thread.start()
-    #ta funcionando ;3
-

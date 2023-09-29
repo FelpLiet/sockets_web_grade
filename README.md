@@ -29,7 +29,7 @@ Este projeto demonstra como criar uma aplicação de chat em tempo real usando W
         
         pip install rich
         
-   Caso esteja utilizando uma distribuicao linux baseada em arch tente o seguinte comando:
+   Caso esteja utilizando uma distribuição linux baseada em arch (Ex. manjaro) tente o seguinte comando:
         
         sudo pacman -S python-rich
 

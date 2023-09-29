@@ -10,6 +10,7 @@ def informacoes():
    conn.sendall(mensagem.encode())
    console.print("mensagem enviada com sucesso", style="#009A05 bold")
 
+
 def hora_atual():
    tempo = datetime.datetime.now()
    hora_formatada = tempo.strftime("%H:%M:%S")

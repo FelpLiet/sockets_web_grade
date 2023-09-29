@@ -8,8 +8,8 @@ console = Console()
 def menu():
     table = Table(title="[#FFB703]Opções Disponiveis", style="#FB8500")
 
-    table.add_column("Menu de opções", style="dim", justify="center")
     table.add_column("Opções", justify="center")
+    table.add_column("Descrição", justify="center")
 
     table.add_row("1", "Consultar informações do sistema")
     table.add_row("2", "Consultar hora do servidor")
@@ -51,11 +51,12 @@ while True:
         client.sendall(nome.encode())
 
         data = client.recv(1024)
+
         if "Arquivo nao encontrado" in data.decode():
             console.print("Arquivo não encontrado no servidor",
                           style="#ff0000 bold")
         else:
-            with open(nome, "wb") as f:
+            with open(nome.split("_")[1], "wb") as f:
                 f.write(data)
             console.print(
                 f"Arquivo {nome} recebido com sucesso", style="#009A05 bold")

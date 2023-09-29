@@ -47,6 +47,7 @@ def comandos(command):
    elif command == "hora":
       hora_atual()
    elif command.startswith("arquivo_"):
+      
       nome_arquivo = command.split("_")[1]
       dados_arq(nome_arquivo)         
    elif command == "listar":

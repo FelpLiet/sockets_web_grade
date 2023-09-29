@@ -6,8 +6,8 @@ import datetime
 import os
 
 def informacoes():
-   mensagem = "jv bota".encode()
-   conn.sendall(mensagem)
+   mensagem = HOST + " " + str(PORT)
+   conn.sendall(mensagem.encode())
    print("mensagem enviada com sucesso")
 
 def hora_atual():

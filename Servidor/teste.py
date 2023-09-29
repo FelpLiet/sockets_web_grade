@@ -15,16 +15,15 @@ def hora_atual(conn):
     conn.sendall(f"hora atual {hora_formatada}\n".encode())
 
 def dados_arq(conn, nome_arquivo):
-   try:
-      with open(nome_arquivo, "rb") as f:
-         dados = f.read()
-      conn.sendall(dados)
-      print(f"Enviado arquivo{nome_arquivo} para o cliente")
-   except FileNotFoundError:
-      conn.sendall("Arquivo não encontrado".encode())
+    try:
+        with open(nome_arquivo, "rb") as f:
+            dados = f.read()
+        conn.sendall(dados)
+        print(f"Enviado arquivo {nome_arquivo} para o cliente")
+    except FileNotFoundError:
+        conn.sendall("Arquivo não encontrado".encode())
 
 def lista_arq(conn):
-    #pasta = "/home/wesley/redes/sockets_web_grade/Servidor/Arquivos"
     diretorio = os.path.dirname(os.path.abspath(__file__))
     pasta_dos_arquivos = os.path.join(diretorio, "Arquivos")
     arquivos_na_pasta = os.listdir(pasta_dos_arquivos)
@@ -36,22 +35,22 @@ def saindo(conn):
     print("ADEUS")
 
 def comandos(conn, command):
-   if command == "consulta":
-      informacoes(conn)
-   elif command == "hora":
-      hora_atual(conn)
-   elif command.startswith("arquivo_"):
-      nome_arquivo = command.split("_")[1]
-      dados_arq(conn, nome_arquivo)         
-   elif command == "listar":
-      lista_arq(conn)
-   elif command == "sair":
-      saindo(conn) 
-   else:
-      conn.sendall("comando desconhecido".encode())
+    if command == "consulta":
+        informacoes(conn)
+    elif command == "hora":
+        hora_atual(conn)
+    elif command.startswith("arquivo_"):
+        nome_arquivo = command.split("_")[1]
+        dados_arq(conn, nome_arquivo)
+    elif command == "listar":
+        lista_arq(conn)
+    elif command == "sair":
+        saindo(conn)
+    else:
+        conn.sendall("comando desconhecido".encode())
 
 def identificador_cliente(conn, ender):
-    console.print("Conectado em", ender, style="#0033D6 bold")
+    print("Conectado em", ender)
 
     try:
         while True:

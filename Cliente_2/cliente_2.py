@@ -17,9 +17,13 @@ def menu():
     table.add_row("4", "Listar Arquivos")
     table.add_row("5", "Fechar Conexão")
     console.print(table)
-    opcao = console.input('[#8ECAE6]Digite uma opção: ')
+    opcao = console.input('Digite uma opção: ')
     return opcao
     
+def nome_cliente(client_socket):
+    nome = console.input('Digite seu nome: ')
+    client_socket.sendall(nome.encode())
+
 HOST = '127.0.0.2'
 PORT = 5000
 ADDR = (HOST, PORT)
@@ -27,6 +31,9 @@ ADDR = (HOST, PORT)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
+
+# Solicita ao cliente que forneça seu nome
+nome_cliente(client)
 
 while(True):
 

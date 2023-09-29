@@ -51,13 +51,16 @@ def comandos(conn, command):
       conn.sendall("comando desconhecido".encode())
 
 def identificador_cliente(conn, ender):
-    console.print("Conectado em", ender, style="#0033D6 bold")
+
+    # Solicita ao cliente que forneça seu nome
+    nome_cliente = conn.recv(1024).decode()
+    console.print(f"Cliente {nome_cliente} conectado em {ender}", style="#009A05 bold")
 
     try:
         while True:
             data = conn.recv(1024)
             if not data:
-                console.print(f'Fechando a conexão com {ender}', style="#ff0000 bold")
+                console.print(f'Fechando a conexão com {nome_cliente}', style="#ff0000 bold")
                 conn.close()
                 break
             else:

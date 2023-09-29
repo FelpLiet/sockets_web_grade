@@ -55,7 +55,7 @@ while True:
             console.print("Arquivo não encontrado no servidor",
                           style="#ff0000 bold")
         else:
-            with open(nome, "wb") as f:
+            with open(nome.split("_")[1], "wb") as f:
                 f.write(data)
             console.print(
                 f"Arquivo {nome} recebido com sucesso", style="#009A05 bold")

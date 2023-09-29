@@ -46,19 +46,19 @@ while(True):
         client.sendall(str.encode(f"arquivo_{nome}.txt"))
 
         data = client.recv(1024)
-        if data.startswith("Arquivo nao encontrado".encode()):
+        if data.decode().startswith("Arquivo nao encontrado"):
             console.print("Arquivo não encontrado no servidor",style="#ff0000 bold")
         else:
             with open(nome, "wb") as f:
                 f.write(data)
             console.print(f"Arquivo {nome} recebido com sucesso",style="#009A05 bold")
-            print(data)
+            console.print(f"{data}")
 
 
     elif opcao == '4':
         client.sendall(str.encode('listar'))
         data = client.recv(1024)
-        console.print('Mensagem ecoada:',data.decode(),style="#009A05 bold")
+        console.print(':file_cabinet:',data.decode())
 
     elif opcao == '5':
         client.sendall(str.encode('sair'))
@@ -66,4 +66,3 @@ while(True):
         console.print('Bye Bye ! ',data.decode(),style="#06d6a0 bold")
         client.close()
         break
-#print('Mensagem ecoada:', data.decode())

@@ -73,19 +73,8 @@ console.print('Aguardando conexão de um cliente',style="#0033D6 bold")
 conn, ender = s.accept()
 console.print('Conectado em', ender,style="#009A05 bold")
 while True:
-   data = conn.recv(1024)
-   command = data.decode()
-   if not data:
-      console.print('Fechando a conexão',style="#ff0000 bold")
-      conn.close()
-      break
-   else:
-      comandos(command)
+    conn, addr = s.accept()
+    thread = threading.Thread(target=identificador_cliente, args=(conn, addr))
+    thread.start()
+    #ta funcionando ;3
 
-"""def start():
-   print("iniciando o socket")
-   s.listen()
-   while(True):
-      conn, addr = s.accept()
-      thread = threading.thread(target=identificador_cliente ,args=(conn, addr))
-      thread.start()"""

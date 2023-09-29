@@ -34,7 +34,7 @@ while(True):
     if opcao == '1':
         client.sendall(str.encode('consulta'))
         data = client.recv(1024)
-        console.print('Mensagem ecoada:',data.decode(),style="#009A05 bold")
+        console.print('Infos: ',data.decode(),style="#009A05 bold")
 
     elif opcao == '2':
         client.sendall(str.encode('hora'))
@@ -42,14 +42,15 @@ while(True):
         console.print(':watch:',data.decode(),style="#009A05 bold")
 
     elif opcao == '3':
-        nome = console.input(':file_folder: [#8ECAE6]Digite o Nome do Arquivo:')
-        client.sendall(str.encode(f"arquivo_{nome}.txt"))
+        nome = console.input(':page_with_curl: [#8ECAE6]Digite o Nome do Arquivo:')
+        nome = "arquivo_" + nome + ".txt"
+        client.sendall(nome.encode())
 
         data = client.recv(1024)
         if data.decode().startswith("Arquivo nao encontrado"):
             console.print("Arquivo não encontrado no servidor",style="#ff0000 bold")
         else:
-            with open(nome, "wb") as f:
+            with open(nome.split("_")[1], "wb") as f:
                 f.write(data)
             console.print(f"Arquivo {nome} recebido com sucesso",style="#009A05 bold")
             console.print(f"{data}")
@@ -58,7 +59,7 @@ while(True):
     elif opcao == '4':
         client.sendall(str.encode('listar'))
         data = client.recv(1024)
-        console.print(':file_cabinet:',data.decode())
+        console.print(':file_folder:',data.decode())
 
     elif opcao == '5':
         client.sendall(str.encode('sair'))

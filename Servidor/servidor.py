@@ -6,9 +6,10 @@ import datetime
 import os
 
 def informacoes():
-   mensagem = HOST + " " + str(PORT)
+   mensagem = HOST + "," + str(PORT)
    conn.sendall(mensagem.encode())
-   print("mensagem enviada com sucesso")
+   console.print("mensagem enviada com sucesso", style="#009A05 bold")
+
 
 def hora_atual():
    tempo = datetime.datetime.now()

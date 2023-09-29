@@ -79,3 +79,4 @@ while True:
     conn, addr = s.accept()
     thread = threading.Thread(target=identificador_cliente, args=(conn, addr))
     thread.start()
+    #ta funcionando ;3

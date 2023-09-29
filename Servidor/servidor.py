@@ -17,17 +17,19 @@ def hora_atual():
 
 
 def dados_arq(nome_arquivo):
+   diretorio = os.path.dirname(os.path.abspath(__file__))
+   pasta_dos_arquivos = os.path.join(diretorio, "Arquivos")
+   caminho = os.path.join(pasta_dos_arquivos, nome_arquivo)
    try:
-      with open(nome_arquivo, "rb") as f:
+      with open(caminho, "rb") as f:
          dados = f.read()
       conn.sendall(dados)
-      print(f"Enviado arquivo{nome_arquivo} para o cliente")
+      console.print(f"Enviado arquivo {nome_arquivo} para o cliente",style="#0033D6 bold")
    except FileNotFoundError:
-      conn.sendall("Arquivo não encontrado".encode())
+      conn.sendall("Arquivo nao encontrado".encode())
 
 
 def lista_arq():
-   #pasta = "/home/wesley/redes/sockets_web_grade/Servidor/Arquivos"
    diretorio = os.path.dirname(os.path.abspath(__file__))
    pasta_dos_arquivos = os.path.join(diretorio, "Arquivos")
    arquivos_na_pasta = os.listdir(pasta_dos_arquivos)
@@ -45,6 +47,7 @@ def comandos(command):
    elif command == "hora":
       hora_atual()
    elif command.startswith("arquivo_"):
+      
       nome_arquivo = command.split("_")[1]
       dados_arq(nome_arquivo)         
    elif command == "listar":
@@ -61,20 +64,18 @@ console = Console()
 
 HOST  = '127.0.0.2'
 PORT  = 5000
+ADDR  = (HOST, PORT)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((HOST, PORT))
+s.bind(ADDR)
 s.listen()
 console.print('Aguardando conexão de um cliente',style="#0033D6 bold")
-#print ('Aguardando conexão de um cliente')
 conn, ender = s.accept()
-console.print('Conectado em',ender,style="#009A05 bold")
-#print ('Conectado em', ender)
+console.print('Conectado em', ender,style="#009A05 bold")
 while True:
    data = conn.recv(1024)
    command = data.decode()
    if not data:
       console.print('Fechando a conexão',style="#ff0000 bold")
-      #print ('Fechando a conexão')
       conn.close()
       break
    else:

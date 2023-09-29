@@ -1,47 +1,74 @@
 import socket
 from rich.console import Console
+from rich.table import Table
 
 console = Console()
 
+
 def menu():
-    console.print("Menu de opções",style="#0033D6 bold")
-    console.print("1 - Consultar informações do sistema", style="#0033D6 bold")
-    console.print("2 - Consultar hora do servidor", style="#0033D6 bold")
-    console.print("3 - Consultar nome de um arquivo", style="#0033D6 bold")
-    console.print("4 - Listar arquivos do diretório", style="#0033D6 bold")
-    console.print("5 - Sair", style="#0033D6 bold")
-    opcao = input("Digite a opção desejada: ")
+    table = Table(title="[#FFB703]Opções Disponiveis", style="#FB8500")
+
+    table.add_column("Menu de opções", style="dim", justify="center")
+    table.add_column("Opções", justify="center")
+
+    table.add_row("1", "Consultar informações do sistema")
+    table.add_row("2", "Consultar hora do servidor")
+    table.add_row("3", "Consultar nome de um arquivo")
+    table.add_row("4", "Listar arquivos do diretório")
+    table.add_row("5", "Sair")
+
+    console.print(table)
+
+    opcao = console.input("[#8ECAE6]Digite a opção desejada: ")
     return opcao
+
 
 HOST = '127.0.0.2'
 PORT = 5000
 ADDR = (HOST, PORT)
 
-connec = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-connec.connect(ADDR)
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect(ADDR)
+
 print('Conectado ao servidor')
 while True:
+
     opcao = menu()
-    print(opcao)
     if opcao == '1':
-        connec.sendall(str.encode("consulta"))
-        data = connec.recv(1024)
-        print('Mensagem ecoada:', data.decode())
+        client.sendall(str.encode('consulta'))
+        data = client.recv(1024)
+        console.print('Mensagem ecoada:', data.decode(), style="#009A05 bold")
+
     elif opcao == '2':
-        connec.sendall(str.encode("hora"))
-        data = connec.recv(1024)
-        print('Mensagem ecoada:', data.decode())
+        client.sendall(str.encode('hora'))
+        data = client.recv(1024)
+        console.print(':watch:', data.decode(), style="#009A05 bold")
+
     elif opcao == '3':
-        connec.sendall(str.encode("arquivo"))
-        nome = input("Digite o nome do arquivo: ")
-        connec.sendall(str.encode(nome))
-        data = connec.recv(1024)
-        print('Mensagem ecoada:', data.decode())
+        nome = console.input(':file_folder: [#8ECAE6]Digite o Nome do Arquivo:')
+        nome = "arquivo_" + nome + ".txt"
+        client.sendall(nome.encode())
+
+        data = client.recv(1024)
+        if "Arquivo nao encontrado" in data.decode():
+            console.print("Arquivo não encontrado no servidor",
+                          style="#ff0000 bold")
+        else:
+            with open(nome, "wb") as f:
+                f.write(data)
+            console.print(
+                f"Arquivo {nome} recebido com sucesso", style="#009A05 bold")
+            print(data)
+
     elif opcao == '4':
-        connec.sendall(str.encode("listar"))
-        data = connec.recv(1024)
-        print('Mensagem ecoada:', data.decode())
+        client.sendall(str.encode('listar'))
+        data = client.recv(1024)
+        console.print('Mensagem ecoada:', data.decode(), style="#009A05 bold")
+
     elif opcao == '5':
-        connec.sendall(str.encode("sair"))
-        print("Saindo do programa")
+        client.sendall(str.encode('sair'))
+        data = client.recv(1024)
+        console.print('Bye Bye ! ', data.decode(), style="#06d6a0 bold")
+        client.close()
         break

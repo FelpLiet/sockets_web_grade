@@ -54,11 +54,10 @@ def comandos(conn, command):
       conn.sendall("comando desconhecido".encode())
 
 def identificador_cliente(conn, ender):
-
     # Solicita ao cliente que forneça seu nome
     nome_cliente = conn.recv(1024).decode()
     console.print(f"Cliente {nome_cliente} conectado em {ender}", style="#009A05 bold")
-    
+   
     try:
         while True:
             data = conn.recv(1024)

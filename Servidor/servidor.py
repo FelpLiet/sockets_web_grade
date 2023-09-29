@@ -22,7 +22,7 @@ def dados_arq(nome_arquivo):
       conn.sendall(dados)
       print(f"Enviado arquivo{nome_arquivo} para o cliente")
    except FileNotFoundError:
-      conn.sendall("Arquivo não encontrado".encode())
+      conn.sendall("Arquivo nao encontrado".encode())
 
 
 def lista_arq():
@@ -39,6 +39,7 @@ def comandos(command):
    elif command == "hora":
       hora_atual()
    elif command.startswith("arquivo_"):
+      
       nome_arquivo = command.split("_")[1]
       dados_arq(nome_arquivo)         
    elif command == "listar":

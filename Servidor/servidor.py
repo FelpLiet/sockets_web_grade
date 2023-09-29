@@ -49,7 +49,7 @@ def comandos(conn, command):
       hora_atual(conn)
    elif command.startswith("arquivo_"):
       nome_arquivo = command.split("_")[1]
-      dados_arq(nome_arquivo)         
+      dados_arq(conn,nome_arquivo)         
    elif command == "listar":
       lista_arq(conn)
    elif command == "sair":

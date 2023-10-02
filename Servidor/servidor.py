@@ -5,10 +5,11 @@ import threading
 import datetime
 import os
 
-def informacoes(conn):
-   mensagem = HOST
+def informacoes(conn,addr):
+   mensagem = f"Servidor TCP rodando em host: {addr[0]}, port:{addr[1]}"
    conn.sendall(mensagem.encode())
    console.print("mensagem enviada com sucesso", style="#009A05 bold")
+
 
 def hora_atual(conn):
    tempo = datetime.datetime.now()
@@ -38,14 +39,15 @@ def saindo(conn):
    conn.sendall("Fechando a conexão".encode())
    print("ADEUS")
 
-def comandos(conn, command):
+
+def comandos(conn,addr, command):
    if command == "consulta":
-      informacoes(conn)
+      informacoes(conn,addr)
    elif command == "hora":
       hora_atual(conn)
    elif command.startswith("arquivo_"): 
       nome_arquivo = command.split("_")[1]
-      dados_arq(conn, nome_arquivo)         
+      dados_arq(conn,nome_arquivo)         
    elif command == "listar":
       lista_arq(conn)
    elif command == "sair":
@@ -67,7 +69,7 @@ def identificador_cliente(conn, ender):
                 break
             else:
                 command = data.decode()
-                comandos(conn, command)
+                comandos(conn,ender, command)
     except ConnectionResetError:
         console.print('Erro de conexão: conexão resetada pelo cliente', style="#ff0000 bold")
 

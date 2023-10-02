@@ -67,3 +67,5 @@ while(True):
         console.print('Bye Bye ! ',data.decode(),style="#06d6a0 bold")
         client.close()
         break
+    else:
+        print('Opção Inválida')

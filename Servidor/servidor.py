@@ -43,7 +43,6 @@ def saindo(conn):
 
 
 def comandos(conn,addr, command):
-   command =command.strip()
    if command == "consulta":
       informacoes(conn,addr)
    elif command == "hora":

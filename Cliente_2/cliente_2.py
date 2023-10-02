@@ -34,7 +34,7 @@ while(True):
     if opcao == '1':
         client.sendall(str.encode('consulta'))
         data = client.recv(1024)
-        console.print('Infos: ',data.decode(),style="#009A05 bold")
+        console.print('Infos do Servidor: ',data.decode(),style="#009A05 bold")
 
     elif opcao == '2':
         client.sendall(str.encode('hora'))

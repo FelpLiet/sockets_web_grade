@@ -4,7 +4,6 @@ from rich.table import Table
 
 console = Console()
 
-
 def menu():
     table = Table(title="[#FFB703]Opções Disponiveis", style="#FB8500")
 
@@ -22,23 +21,27 @@ def menu():
     opcao = console.input("[#8ECAE6]Digite a opção desejada: ")
     return opcao
 
+def nome_cliente(client_socket):
+    nome = console.input('Digite seu nome: ')
+    client_socket.sendall(nome.encode())
 
 HOST = '127.0.0.2'
 PORT = 5000
 ADDR = (HOST, PORT)
 
-
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
 
+# Solicita ao cliente que forneça seu nome
+nome_cliente(client)
+
 print('Conectado ao servidor')
 while True:
-
     opcao = menu()
     if opcao == '1':
         client.sendall(str.encode('consulta'))
         data = client.recv(1024)
-        console.print('Mensagem ecoada:', data.decode(), style="#009A05 bold")
+        console.print('Infos do Servidor: ', data.decode(), style="#009A05 bold")
 
     elif opcao == '2':
         client.sendall(str.encode('hora'))
@@ -73,3 +76,5 @@ while True:
         console.print('Bye Bye ! ', data.decode(), style="#06d6a0 bold")
         client.close()
         break
+    else:
+        console.print('Opção inválida', style="#ff0000 bold")

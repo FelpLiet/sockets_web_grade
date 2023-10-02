@@ -8,14 +8,13 @@ import os
 def informacoes(conn,addr):
    mensagem = f"Servidor TCP rodando em host: {addr[0]}, port:{addr[1]}"
    conn.sendall(mensagem.encode())
-   console.print(f"Informações envidas para {addr[1]}", style="#009A05 bold")
+   console.print("mensagem enviada com sucesso", style="#009A05 bold")
 
 
 def hora_atual(conn):
    tempo = datetime.datetime.now()
    hora_formatada = tempo.strftime("%H:%M:%S")
    conn.sendall(f"hora atual {hora_formatada}\n".encode())
-
 
 def dados_arq(conn, nome_arquivo):
    diretorio = os.path.dirname(os.path.abspath(__file__))
@@ -28,7 +27,6 @@ def dados_arq(conn, nome_arquivo):
       console.print(f"Enviado arquivo {nome_arquivo} para o cliente",style="#0033D6 bold")
    except FileNotFoundError:
       conn.sendall("Arquivo nao encontrado".encode())
-
 
 def lista_arq(conn):
    diretorio = os.path.dirname(os.path.abspath(__file__))
@@ -47,7 +45,7 @@ def comandos(conn,addr, command):
       informacoes(conn,addr)
    elif command == "hora":
       hora_atual(conn)
-   elif command.startswith("arquivo_"):
+   elif command.startswith("arquivo_"): 
       nome_arquivo = command.split("_")[1]
       dados_arq(conn,nome_arquivo)         
    elif command == "listar":
@@ -58,13 +56,15 @@ def comandos(conn,addr, command):
       conn.sendall("comando desconhecido".encode())
 
 def identificador_cliente(conn, ender):
-    console.print("Conectado em", ender, style="#0033D6 bold")
-    informacoes(conn,ender)
+    # Solicita ao cliente que forneça seu nome
+    nome_cliente = conn.recv(1024).decode()
+    console.print(f"Cliente {nome_cliente} conectado em {ender}", style="#009A05 bold")
+   
     try:
         while True:
             data = conn.recv(1024)
             if not data:
-                console.print(f'Fechando a conexão com {ender}', style="#ff0000 bold")
+                console.print(f'Fechando a conexão com {nome_cliente}', style="#ff0000 bold")
                 conn.close()
                 break
             else:
@@ -87,5 +87,3 @@ while True:
     conn, addr = s.accept()
     thread = threading.Thread(target=identificador_cliente, args=(conn, addr))
     thread.start()
-    #ta funcionando ;3
-
